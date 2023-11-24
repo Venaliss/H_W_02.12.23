@@ -45,9 +45,14 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tumakov DZ_12\12.1\ComplexNumber.cs" />
+    <Compile Include="Tumakov DZ_12\12.1\Program.cs" />
+    <Compile Include="Tumakov DZ_12\12.2\Class1.cs" />
+    <Compile Include="Tumakov DZ_12\12.2\Program.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
