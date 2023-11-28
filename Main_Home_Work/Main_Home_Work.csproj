@@ -43,7 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Main_DZ_1\Program.cs" />
+    <Compile Include="Main_DZ_2\Person.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main_DZ_1\Student.cs" />
   </ItemGroup>
@@ -51,10 +52,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Main_DZ_1\события.txt" />
-    <Content Include="Main_DZ_1\студенты.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Main_DZ_1\files\события.txt" />
+    <Content Include="Main_DZ_1\files\студенты.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
