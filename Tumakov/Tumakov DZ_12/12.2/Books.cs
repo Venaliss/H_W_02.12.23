@@ -20,10 +20,10 @@ namespace Tumakov.Tumakov_DZ_12._12._2
         }
     }
 
-    // Делегат для сравнения книг
+    /* Делегат для сравнения книг*/
     public delegate bool BookComparer(Book book1, Book book2);
 
-    // Класс контейнера для множества книг
+    /* Класс контейнера для множества книг*/
     public class BookContainer
     {
         private Book[] books;
