@@ -16,27 +16,27 @@ namespace Main_Home_Work
 
             /*вводим информацию о новом мероприятии*/
             Console.WriteLine("Введите название мероприятия:");
-            string eventName = Console.ReadLine();
+            string EventName = Console.ReadLine();
 
             Console.WriteLine("Введите дату мероприятия в формате xx.xx.xxxx:");
-            DateTime eventDate = DateTime.Parse(Console.ReadLine());
+            DateTime EventDate = DateTime.Parse(Console.ReadLine());
 
             Console.WriteLine("Введите количество участников от каждой группы:");
-            int participantsPerGroup = int.Parse(Console.ReadLine());
+            int ParticipantsPerGroup = int.Parse(Console.ReadLine());
 
             Console.WriteLine("Введите количество групп:");
-            int numberOfGroups = int.Parse(Console.ReadLine());
+            int NumberOfGroups = int.Parse(Console.ReadLine());
 
             /*розыгрыш участников мероприятия*/
-            List<Student> eventParticipants = ChooseEventParticipants(students, participantsPerGroup, numberOfGroups);
+            List<Student> EventParticipants = ChooseEventParticipants(students, ParticipantsPerGroup, NumberOfGroups);
 
             /*запись информации о мероприятии и выбранных студентах в файл*/
-            WriteEventToFile(eventName, eventDate, eventParticipants);
+            WriteEventToFile(EventName, EventDate, EventParticipants);
 
             Console.WriteLine("Мероприятие создано и информация записана в файл.\n");
 
 
-
+            /*Задача 2 Написать программу для слежения за интересующим вас событием.*/
             Console.WriteLine("Задача 2 - У каждого есть хобби. Написать программу для слежения за интересующим вас событием(выход сериала, концерт и т.д.)");
             List<Person> people = new List<Person>()
             {
@@ -49,7 +49,7 @@ namespace Main_Home_Work
             Console.Write("Введите тематику события: ");
             string EVENT = Console.ReadLine();
 
-            bool eventMatched = false;
+            bool EventMatched = false;
 
             /*проверка у кого совпадает увлечение с введенным событием*/
             foreach (Person person in people)
@@ -57,28 +57,26 @@ namespace Main_Home_Work
                 if (person.Hobby == EVENT)
                 {
                     Console.WriteLine(person.Name + " реагирует на событие: " + EVENT);
-                    eventMatched = true;
+                    EventMatched = true;
                 }
             }
 
             /* сообщение, если ни у кого не совпало увлечение с введенным событием*/
-            if (!eventMatched)
+            if (!EventMatched)
             {
                 Console.WriteLine("Ни у кого нет увлечения по данному событию.");
             }
             Console.ReadKey();
         }
-
-
         /*Задача 1*/
-        static List<Student> ReadStudentsFromFile(string fileName)
+        static List<Student> ReadStudentsFromFile(string FileName)
         {
             List<Student> students = new List<Student>();
 
             /*исключения на случай, если файл не найден*/
             try
             {
-                StreamReader reader = new StreamReader(fileName);
+                StreamReader reader = new StreamReader(FileName);
                 string line;
 
                 while ((line = reader.ReadLine()) != null)
@@ -98,61 +96,61 @@ namespace Main_Home_Work
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine($"Файл {fileName} не найден.");
+                Console.WriteLine($"Файл {FileName} не найден.");
             }
 
             return students;
         }
 
-        static List<Student> ChooseEventParticipants(List<Student> students, int participantsPerGroup, int numberOfGroups)
+        static List<Student> ChooseEventParticipants(List<Student> students, int ParticipantsPerGroup, int NumberOfGroups)
         {
             /* выбор студентов, не участвовавших в последних трех мероприятиях*/
-            List<Student> eligibleStudents = students.Where(student => !student.ParticipateLastThreeEvents).ToList();
+            List<Student> EligibleStudents = students.Where(student => !student.ParticipateLastThreeEvents).ToList();
 
             /*желающих участвовать самостоятельно*/
-            List<Student> soloParticipants = eligibleStudents.Where(student => student.WantsToParticipateAlone).ToList();
+            List<Student> SoloParticipants = EligibleStudents.Where(student => student.WantsToParticipateAlone).ToList();
 
             /*для группового участия*/
-            List<Student> groupParticipants = eligibleStudents.Where(student => !student.WantsToParticipateAlone).ToList();
+            List<Student> GroupParticipants = EligibleStudents.Where(student => !student.WantsToParticipateAlone).ToList();
 
             /*участники из каждой группы*/
-            List<Student> eventParticipants = new List<Student>();
+            List<Student> EventParticipants = new List<Student>();
 
             Random random = new Random();
 
-            for (int i = 1; i <= numberOfGroups; i++)
+            for (int i = 1; i <= NumberOfGroups; i++)
             {
                 // Проверка, есть ли студенты для данной группы
-                if (groupParticipants.Count(stud => stud.Group == i.ToString()) > 0)
+                if (GroupParticipants.Count(stud => stud.Group == i.ToString()) > 0)
                 {
                     // Выбор случайных студентов из группы
-                    List<Student> group = groupParticipants
+                    List<Student> group = GroupParticipants
                         .Where(stud => stud.Group == i.ToString())
                         .OrderBy(stud => random.Next())
-                        .Take(participantsPerGroup)
+                        .Take(ParticipantsPerGroup)
                         .ToList();
 
-                    eventParticipants.AddRange(group);
+                    EventParticipants.AddRange(group);
                 }
             }
 
             /* оставшиеся места*/
-            int remainingSpots = participantsPerGroup * numberOfGroups - eventParticipants.Count;
-            List<Student> additionalParticipants = groupParticipants.OrderBy(stud => random.Next())
-                .Take(remainingSpots)
+            int RemainingSpots = ParticipantsPerGroup * NumberOfGroups - EventParticipants.Count;
+            List<Student> AdditionalParticipants = GroupParticipants.OrderBy(stud => random.Next())
+                .Take(RemainingSpots)
                 .ToList();
 
-            eventParticipants.AddRange(additionalParticipants);
+            EventParticipants.AddRange(AdditionalParticipants);
 
-            /* желающих участвовать самостоятельно */
-            eventParticipants.AddRange(soloParticipants);
+            /* желающие участвовать самостоятельно */
+            EventParticipants.AddRange(SoloParticipants);
 
-            return eventParticipants;
+            return EventParticipants;
         }
 
-        static void WriteEventToFile(string eventName, DateTime eventDate, List<Student> eventParticipants)
+        static void WriteEventToFile(string EventName, DateTime EventDate, List<Student> EventParticipants)
         {
-            string fileName = "события.txt";
+            string EventFileName = "события.txt";
         }
     }
 }
